@@ -79,45 +79,5 @@ SELECT *, 'Domestic' AS type FROM Domestic
 UNION ALL 
 SELECT *, 'Pack' AS type FROM Pack;"
 
-# 13. Class with encapsulation methods and inheritance (example in Python)
-class Animal:
-    def __init__(self, name):
-        self.__name = name
 
-class DomesticAnimal(Animal):
-    def __init__(self, name):
-        super().__init__(name)
-
-class PackAnimal(Animal):
-    def __init__(self, name):
-        super().__init__(name)
-
-# 14. Program to manage a registry of domestic animals (example in Python)
-class Registry:
-    def __init__(self):
-        self.animals = []
-
-    def register_animal(self, name):
-        self.animals.append(name)
-
-    def show_animals(self):
-        return self.animals
-
-registry = Registry()
-registry.register_animal("Sharik")
-print(registry.show_animals())
-
-# 15. Counter class with an add() method
-class Counter:
-    def __init__(self):
-        self.__value = 0
-
-    def add(self):
-        self.__value += 1
-
-try:
-    counter = Counter()
-    counter.add()
-except Exception as e:
-    print("Error:", e)
 
