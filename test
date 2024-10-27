@@ -1,122 +1,123 @@
-# 1. Создание файлов с помощью команды cat
-echo -e "Собаки\nКошки\nХомяки" > ДомашниеЖивотные.txt
-echo -e "Лошади\nВерблюды\nОслы" > ВьючныеЖивотные.txt
+# 1. Create files using the cat command
+echo -e "Dogs\nCats\nHamsters" > DomesticAnimals.txt
+echo -e "Horses\nCamels\nDonkeys" > PackAnimals.txt
 
-# Объединение файлов
-cat ДомашниеЖивотные.txt ВьючныеЖивотные.txt > ВсеЖивотные.txt
+# Combine the files
+cat DomesticAnimals.txt PackAnimals.txt > AllAnimals.txt
 
-# Просмотр содержимого объединенного файла
-cat ВсеЖивотные.txt
+# View the contents of the combined file
+cat AllAnimals.txt
 
-# Переименование файла
-mv ВсеЖивотные.txt ДрузьяЧеловека.txt
+# Rename the file
+mv AllAnimals.txt FriendsOfHumans.txt
 
-# 2. Создание директории и перемещение файла
-mkdir Питомник
-mv ДрузьяЧеловека.txt Питомник/
+# 2. Create a directory and move the file there
+mkdir Shelter
+mv FriendsOfHumans.txt Shelter/
 
-# 3. Подключение репозитория MySQL и установка пакета
+# 3. Add MySQL repository and install a package
 sudo add-apt-repository ppa:ondrej/php
 sudo apt update
 sudo apt install php-mysql
 
-# 4. Установка и удаление deb-пакета с помощью dpkg
-sudo dpkg -i имя_пакета.deb  # Установка пакета
-sudo dpkg -r имя_пакета       # Удаление пакета
+# 4. Install and remove a deb package using dpkg
+sudo dpkg -i package_name.deb  # Install package
+sudo dpkg -r package_name       # Remove package
 
-# 5. Выложить историю команд в терминале Ubuntu
-history > история_команд.txt
+# 5. Output command history in Ubuntu terminal
+history > command_history.txt
 
-# 6. Диаграмма классов (представлена текстово)
-# Родительский класс: Животные
-#   ├── Домашние животные
-#   │     ├── Собаки
-#   │     ├── Кошки
-#   │     └── Хомяки
-#   └── Вьючные животные
-#         ├── Лошади
-#         ├── Верблюды
-#         └── Ослы
+# 6. Class diagram (represented textually)
+# Parent Class: Animals
+#   ├── Domestic Animals
+#   │     ├── Dogs
+#   │     ├── Cats
+#   │     └── Hamsters
+#   └── Pack Animals
+#         ├── Horses
+#         ├── Camels
+#         └── Donkeys
 
-# 7. Создание базы данных в MySQL
-mysql -u root -p -e "CREATE DATABASE ДрузьяЧеловека;"
+# 7. Create a database in MySQL
+mysql -u root -p -e "CREATE DATABASE FriendsOfHumans;"
 
-# 8. Создание таблиц в БД (пример)
-mysql -u root -p ДрузьяЧеловека -e "
-CREATE TABLE Домашние (
+# 8. Create tables in the database (example)
+mysql -u root -p FriendsOfHumans -e "
+CREATE TABLE Domestic (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    имя VARCHAR(50),
-    команда VARCHAR(50),
-    дата_рождения DATE
+    name VARCHAR(50),
+    command VARCHAR(50),
+    birth_date DATE
 );
-CREATE TABLE Вьючные (
+CREATE TABLE Pack (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    имя VARCHAR(50),
-    команда VARCHAR(50),
-    дата_рождения DATE
+    name VARCHAR(50),
+    command VARCHAR(50),
+    birth_date DATE
 );"
 
-# 9. Заполнение таблиц данными (пример)
-mysql -u root -p ДрузьяЧеловека -e "
-INSERT INTO Домашние (имя, команда, дата_рождения) VALUES ('Шарик', 'Сидеть', '2020-01-01');
-INSERT INTO Вьючные (имя, команда, дата_рождения) VALUES ('Бурёнка', 'Идти', '2019-05-15');"
+# 9. Fill tables with data (example)
+mysql -u root -p FriendsOfHumans -e "
+INSERT INTO Domestic (name, command, birth_date) VALUES ('Sharik', 'Sit', '2020-01-01');
+INSERT INTO Pack (name, command, birth_date) VALUES ('Burenka', 'Go', '2019-05-15');"
 
-# 10. Удаление верблюдов и объединение таблиц лошадей и ослов (пример)
-mysql -u root -p ДрузьяЧеловека -e "
-DELETE FROM Вьючные WHERE имя = 'Верблюд';
-CREATE TABLE Лошади_Ослы AS SELECT * FROM Вьючные WHERE команда IN ('Идти', 'Бежать');"
+# 10. Delete camels and merge horses and donkeys tables (example)
+mysql -u root -p FriendsOfHumans -e "
+DELETE FROM Pack WHERE name = 'Camel';
+CREATE TABLE Horses_Donkeys AS SELECT * FROM Pack WHERE command IN ('Go', 'Run');"
 
-# 11. Создание таблицы "молодые животные"
-mysql -u root -p ДрузьяЧеловека -e "
-CREATE TABLE МолодыеЖивотные AS 
-SELECT *, TIMESTAMPDIFF(YEAR, дата_рождения, CURDATE()) AS возраст 
-FROM Домашние WHERE возраст > 1 AND возраст < 3;"
+# 11. Create a "Young Animals" table for animals older than 1 year and younger than 3 years
+mysql -u root -p FriendsOfHumans -e "
+CREATE TABLE YoungAnimals AS 
+SELECT *, TIMESTAMPDIFF(YEAR, birth_date, CURDATE()) AS age 
+FROM Domestic WHERE age > 1 AND age < 3;"
 
-# 12. Объединение всех таблиц в одну с сохранением принадлежности (пример)
-mysql -u root -p ДрузьяЧеловека -e "
-CREATE TABLE ВсеЖивотные AS 
-SELECT *, 'Домашние' AS тип FROM Домашние 
+# 12. Merge all tables into one while preserving previous table affiliation (example)
+mysql -u root -p FriendsOfHumans -e "
+CREATE TABLE AllAnimals AS 
+SELECT *, 'Domestic' AS type FROM Domestic 
 UNION ALL 
-SELECT *, 'Вьючные' AS тип FROM Вьючные;"
+SELECT *, 'Pack' AS type FROM Pack;"
 
-# 13. Класс с инкапсуляцией методов и наследованием (пример на Python)
-class Животное:
-    def __init__(self, имя):
-        self.__имя = имя
+# 13. Class with encapsulation methods and inheritance (example in Python)
+class Animal:
+    def __init__(self, name):
+        self.__name = name
 
-class ДомашнееЖивотное(Животное):
-    def __init__(self, имя):
-        super().__init__(имя)
+class DomesticAnimal(Animal):
+    def __init__(self, name):
+        super().__init__(name)
 
-class ВьючноеЖивотное(Животное):
-    def __init__(self, имя):
-        super().__init__(имя)
+class PackAnimal(Animal):
+    def __init__(self, name):
+        super().__init__(name)
 
-# 14. Программа для работы с реестром домашних животных (пример на Python)
-class Реестр:
+# 14. Program to manage a registry of domestic animals (example in Python)
+class Registry:
     def __init__(self):
-        self.животные = []
+        self.animals = []
 
-    def завести_животное(self, имя):
-        self.животные.append(имя)
+    def register_animal(self, name):
+        self.animals.append(name)
 
-    def показать_животных(self):
-        return self.животные
+    def show_animals(self):
+        return self.animals
 
-реестр = Реестр()
-реестр.zавести_животное("Шарик")
-print(реестр.показать_животных())
+registry = Registry()
+registry.register_animal("Sharik")
+print(registry.show_animals())
 
-# 15. Класс Счетчик с методом add()
-class Счетчик:
+# 15. Counter class with an add() method
+class Counter:
     def __init__(self):
-        self.__значение = 0
+        self.__value = 0
 
     def add(self):
-        self.__значение += 1
+        self.__value += 1
 
 try:
-    счетчик = Счетчик()
-    счетчик.add()
+    counter = Counter()
+    counter.add()
 except Exception as e:
-    print("Ошибка:", e)
+    print("Error:", e)
+
